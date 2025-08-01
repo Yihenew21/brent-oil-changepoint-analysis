@@ -30,8 +30,6 @@ data/events/*
 !data/events/major_events.csv  # Explicitly include major_events.csv
 
 # Results (plots, models, etc.)
-results/figures/*
-!results/figures/.gitkeep
 results/models/*
 !results/models/.gitkeep
 results/reports/*
