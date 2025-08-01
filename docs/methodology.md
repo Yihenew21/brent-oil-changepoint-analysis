@@ -8,7 +8,7 @@ This document outlines the data analysis workflow for analyzing the impact of ma
 
 1. **Data Collection and Cleaning**:
 
-   - Load Brent oil price data (`brent_oil_prices.csv`) from May 20, 1987, to September 30, 2022.
+   - Load Brent oil price data (`BrentOilPrices.csv`) from May 20, 1987, to September 30, 2022.
    - Convert `Date` column to datetime format and ensure `Price` is numeric.
    - Handle missing values or outliers, if any.
    - Save cleaned data to `data/processed/cleaned_oil_data.csv`.
