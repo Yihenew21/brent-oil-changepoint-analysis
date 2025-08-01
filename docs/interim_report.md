@@ -2,67 +2,72 @@
 
 **10 Academy Week 10 Challenge**  
 **Date**: August 1, 2025  
-**Team**: [Your Name/Team Name]
+**Team**: Yihenew Animut
 
 ## Introduction
 
-This interim report outlines the planned data analysis workflow, event dataset compilation, and initial steps for Task 1 of the 10 Academy Week 10 Challenge. The goal is to analyze how major events impact Brent oil prices using Bayesian change point modeling.
+This interim report completes Task 1 of the 10 Academy Week 10 Challenge, focusing on defining the data analysis workflow and understanding the Brent oil price data and Bayesian change point models. The objective is to analyze how major events impact Brent oil prices.
 
-## Planned Steps
+## Data Analysis Workflow
 
-1. **Data Cleaning**:
+The workflow, detailed in `docs/methodology.md`, includes:
 
-   - Load Brent oil price data (`data/raw/brent_oil_prices.csv`) using `src/data/data_loader.py`.
-   - Convert `Date` to datetime and ensure `Price` is numeric.
-   - Save cleaned data to `data/processed/cleaned_oil_data.csv`.
-
-2. **Event Compilation**:
-
-   - Researched 11 major events (e.g., 2008 financial crisis, 2020 OPEC+ price war) and compiled them in `data/events/major_events.csv`.
-   - Events include geopolitical conflicts, OPEC policies, and demand/supply shocks.
-
-3. **Exploratory Data Analysis**:
-
-   - Visualize price series and log returns in `notebooks/01_exploratory_analysis.ipynb`.
-   - Test stationarity using the Augmented Dickey-Fuller test to confirm log returns are suitable for modeling.
-
-4. **Model Development**:
-
-   - Implement a Bayesian change point model in `src/models/changepoint_model.py` using PyMC3.
-   - Define a switch point (`tau`) and estimate parameter changes (e.g., mean price).
-
-5. **Interpretation**:
-
-   - Compare change points with events to hypothesize causal relationships.
-   - Quantify price impacts (e.g., percentage changes).
-
-6. **Dashboard**:
-
-   - Develop a Flask/React dashboard to visualize results interactively.
-
-7. **Reporting**:
-   - Submit a final report or blog post and share via GitHub.
+1. **Data Cleaning**: Load and preprocess Brent oil price data (`data/raw/BrentOilPrices.csv`) using `src/data/data_loader.py`, converting `Date` to datetime and saving to `data/processed/cleaned_oil_data.csv`.
+2. **Event Compilation**: Compiled 15 major events (1990–2023) in `data/events/major_events.csv`, covering conflicts, economic shocks, OPEC policies, and more. Note: The 2023 event will be excluded unless additional price data is sourced.
+3. **Exploratory Data Analysis (EDA)**: Visualize price series and log returns, and test stationarity in `notebooks/01_exploratory_analysis.ipynb`.
+4. **Modeling**: Plan to implement a Bayesian change point model using PyMC3 in Task 2.
+5. **Interpretation**: Compare change points with events to hypothesize impacts.
+6. **Dashboard**: Develop a Flask/React dashboard in Task 3.
+7. **Reporting**: Share results via a blog post and GitHub.
 
 ## Event Dataset
 
-The event dataset (`data/events/major_events.csv`) includes 11 events with columns: `Date`, `Event`, `Description`, `Category`. Examples:
+The dataset (`data/events/major_events.csv`) contains 15 events with columns: `Event Name`, `Start Date`, `Category`, `Description`, `Source Link`. Examples:
 
-- **01-Jan-2008**: Global Financial Crisis (Oil Demand Shock).
-- **01-Nov-2016**: OPEC Production Cut (OPEC Policy).
-- **01-Jan-2022**: Russia-Ukraine Conflict (Geopolitical Conflict).
+- **1990-08-02**: Gulf War Begins (Conflict).
+- **2008-09-15**: Global Financial Crisis (Economic Shock).
+- **2022-02-24**: Russia Invades Ukraine (Conflict/Sanctions).
+  Events were sourced from reliable references (e.g., Wikipedia, IMF, World Bank).
 
-## Assumptions and Limitations
+## Assumptions
 
-- **Assumptions**: Events have immediate impacts; log returns are stationary.
-- **Limitations**: Correlation does not imply causation; event selection may introduce bias.
+- Events have immediate or short-term price impacts.
+- Log returns are stationary, suitable for modeling.
+- The price data is complete and accurate.
+
+## Limitations
+
+- **Correlation vs. Causation**: Change points may align with events but not prove causality.
+- **Event Selection**: Manual compilation may miss minor events or misalign dates.
+- **Data Scope**: Limited to price data and events up to 2022 (excluding 2023 event).
+- **Model Sensitivity**: Bayesian priors may affect results.
+
+## EDA Insights
+
+- **Price Series**: Visualized in `results/figures/price_series.png`, showing trends (e.g., peaks in 2008, crashes in 2014, 2020).
+- **Log Returns**: Plotted in `results/figures/log_returns.png`, revealing volatility clustering (e.g., high volatility in 2008, 2020).
+- **Stationarity**: ADF test (in `notebooks/01_exploratory_analysis.ipynb`) will likely confirm non-stationarity of prices and stationarity of log returns, supporting their use in modeling.
+
+## Model and Data Understanding
+
+- **Time Series Properties**: Prices are non-stationary with trends and shocks; log returns are expected to be stationary.
+- **Change Point Models**: Detect structural breaks (e.g., mean price shifts) using a switch point (`tau`) and PyMC3 MCMC sampling.
+- **Outputs**: Change point dates, parameter changes (e.g., mean price), and probabilistic statements.
+- **Limitations**: Sensitivity to priors, potential for missing multiple change points.
+
+## Communication Plan
+
+- **Dashboard**: Interactive Flask/React interface for stakeholders.
+- **Report**: Blog post or PDF (`docs/final_report.md`).
+- **GitHub**: Repository with code, notebooks, and documentation.
 
 ## GitHub Repository
 
-- [Link to GitHub Repository](#) (to be updated with actual link).
-- Code includes `src/data/data_loader.py`, `notebooks/01_exploratory_analysis.ipynb`, and `data/events/major_events.csv`.
+- [Link to GitHub Repository](#) https://github.com/Yihenew21/brent-oil-changepoint-analysis.git.
+- Key files: `src/data/data_loader.py`, `data/events/major_events.csv`, `notebooks/01_exploratory_analysis.ipynb`, `docs/methodology.md`.
 
 ## Next Steps
 
-- Complete EDA and confirm stationarity.
-- Implement the Bayesian model for Task 2.
+- Run EDA notebook to generate plots and confirm stationarity.
+- Implement Bayesian change point model for Task 2.
 - Begin dashboard development for Task 3.
