@@ -1,0 +1,78 @@
+# Python-specific ignores
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+*.egg
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Virtual environment
+venv/
+.env
+env/
+.venv/
+ENV/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Data files (raw data should be ignored if sensitive or large)
+data/raw/*
+!data/raw/.gitkeep  # Keep empty raw directory structure
+data/processed/*
+!data/processed/.gitkeep
+data/events/*
+!data/events/major_events.csv  # Explicitly include major_events.csv
+
+# Results (plots, models, etc.)
+results/models/*
+!results/models/.gitkeep
+results/reports/*
+!results/reports/.gitkeep
+
+# Dashboard build artifacts
+dashboard/frontend/node_modules/
+dashboard/frontend/build/
+dashboard/frontend/dist/
+dashboard/frontend/.cache/
+dashboard/frontend/yarn.lock
+dashboard/frontend/package-lock.json
+
+# IDE and editor files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.DS_Store
+*.swp
+*.swo
+
+# Testing and coverage
+.coverage
+coverage.xml
+*.cover
+htmlcov/
+.tox/
+.pytest_cache/
+
+# Documentation build artifacts
+docs/_build/
+docs/_static/
+docs/_templates/
+
+# Miscellaneous
+*.log
+*.bak
+*.tmp
+*.temp
+*~
+*.zip
+*.tar.gz
+
+# Conda environment file (optional, include if shared)
+# environment.yml
