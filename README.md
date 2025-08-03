@@ -12,7 +12,7 @@ This repository contains the implementation for the **10 Academy Artificial Inte
 
 ### Data
 
-- **Brent Oil Prices**: Daily prices from May 20, 1987, to September 30, 2022 (`data/raw/brent_oil_prices.csv`).
+- **Brent Oil Prices**: Daily prices from May 20, 1987, to September 30, 2022 (`data/raw/BrentOilPrices.csv`).
 - **Event Dataset**: 15 major events (1990–2022) compiled in `data/events/major_events.csv`, covering conflicts, economic shocks, and OPEC policies.
 
 ## Repository Structure
@@ -32,7 +32,7 @@ brent-oil-changepoint-analysis/
 │
 ├── notebooks/
 │   ├── 01_exploratory_analysis.ipynb  # EDA for price series
-│   ├── 02_data_preprocessing.ipynb    # Data cleaning
+│   ├── 02_data_preprocessing.ipynb    # Data cleaning and preprocessing
 │   ├── 03_changepoint_modeling.ipynb  # Bayesian modeling
 │   └── 04_results_interpretation.ipynb # Results analysis
 │
@@ -62,7 +62,8 @@ brent-oil-changepoint-analysis/
 ├── docs/
 │   ├── interim_report.md   # Task 1 submission
 │   ├── final_report.md     # Final report/blog post
-│   └── methodology.md      # Detailed methodology
+│   ├── methodology.md      # Detailed methodology
+│   └── task_2_report.md    # Task 2 completion report
 │
 └── scripts/
     ├── run_analysis.py     # Main analysis script
@@ -109,24 +110,36 @@ brent-oil-changepoint-analysis/
    ```
 
 4. **Place data**:
-   - Add `BrentOilPrices.csv` to `data/raw/`.
+   - Add `brent_oil_prices.csv` to `data/raw/`.
    - The `major_events.csv` is already included in `data/events/`.
 
 ### Running the Analysis
 
-1. **Exploratory Data Analysis**:
+1. **Data Preprocessing**:
+
+   ```bash
+   jupyter notebook notebooks/02_data_preprocessing.ipynb
+   ```
+
+2. **Exploratory Data Analysis**:
 
    ```bash
    jupyter notebook notebooks/01_exploratory_analysis.ipynb
    ```
 
-2. **Run main analysis** (Tasks 2–3):
+3. **Change Point Modeling**:
+
+   ```bash
+   jupyter notebook notebooks/03_changepoint_modeling.ipynb
+   ```
+
+4. **Run main analysis** (Tasks 2–3):
 
    ```bash
    python scripts/run_analysis.py
    ```
 
-3. **Launch dashboard** (Task 3):
+5. **Launch dashboard** (Task 3):
    ```bash
    cd dashboard/backend
    python app.py
@@ -137,7 +150,7 @@ brent-oil-changepoint-analysis/
 ## Usage
 
 - **Task 1**: Run `notebooks/01_exploratory_analysis.ipynb` to visualize price trends and log returns.
-- **Task 2**: Implement Bayesian change point modeling in `notebooks/03_changepoint_modeling.ipynb` (in progress).
+- **Task 2**: Run `notebooks/02_data_preprocessing.ipynb` to preprocess data, then `notebooks/03_changepoint_modeling.ipynb` for Bayesian modeling.
 - **Task 3**: Access the dashboard at `http://localhost:3000` after starting the backend and frontend.
 
 ## Deliverables
