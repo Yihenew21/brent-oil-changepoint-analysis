@@ -157,7 +157,7 @@ python app.py
 
 **Terminal 2 - Start Frontend:**
 ```bash
-cd dashboard/frontend
+cd dashboard/dashboard-frontend
 npm start
 ```
 **Expected Output**: `Local: http://localhost:3000`
