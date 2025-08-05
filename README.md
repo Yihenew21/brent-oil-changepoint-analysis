@@ -20,8 +20,9 @@ This repository contains the implementation for the **10 Academy Artificial Inte
 ### Prerequisites Checklist
 Before starting, verify you have:
 - [ ] Python 3.9+ installed (`python --version`)
-- [ ] Node.js installed (`node --version`)
+- [ ] Node.js 16+ installed (`node --version`)
 - [ ] Git installed (`git --version`)
+- [ ] npm installed (`npm --version`)
 
 ### Step-by-Step Setup
 
@@ -41,6 +42,7 @@ python -m venv venv
 venv\Scripts\activate
 # On macOS/Linux:
 source venv/bin/activate
+pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
@@ -50,7 +52,7 @@ conda env create -f environment.yml
 conda activate brent-oil-analysis
 ```
 
-**Verification**: Run `pip list` - you should see packages like `pandas`, `pymc3`, `flask` installed.
+**Verification**: Run `pip list` and confirm packages like `pandas>=1.5.0`, `pymc3>=3.11.0`, and `flask>=2.0.0` are installed.
 
 #### 3. Install Frontend Dependencies
 ```bash
@@ -59,7 +61,7 @@ npm install
 cd ../..
 ```
 
-**Verification**: Check that `node_modules` folder exists in `dashboard/dashboard-frontend/`
+**Verification**: Confirm the `node_modules` folder exists in `dashboard/dashboard-frontend/` by running `ls -a dashboard/dashboard-frontend/node_modules` (macOS/Linux) or `dir dashboard\dashboard-frontend\node_modules` (Windows).
 
 #### 4. Data Setup
 ```bash
@@ -68,7 +70,7 @@ ls data/raw/BrentOilPrices.csv     # Should exist
 ls data/events/major_events.csv    # Should exist (included)
 ```
 
-**Important**: If `BrentOilPrices.csv` is missing, place your Brent oil price data file in the `data/raw/` directory.
+**Important**: If `BrentOilPrices.csv` is missing, download or place the Brent oil price data file (daily prices from May 20, 1987, to September 30, 2022) in the `data/raw/` directory.
 
 ## 📋 Complete Analysis Workflow
 
@@ -104,7 +106,7 @@ jupyter notebook notebooks/02_data_preprocessing.ipynb
 - Computes log returns: `log(price_t) - log(price_{t-1})`
 - Saves cleaned data to `data/processed/cleaned_oil_data.csv`
 
-**Verification**: Check that `data/processed/cleaned_oil_data.csv` is created.
+**Verification**: Check that `data/processed/cleaned_oil_data.csv` is created with `ls data/processed/cleaned_oil_data.csv`.
 
 #### Step 2: Run Change Point Modeling
 ```bash
@@ -141,10 +143,14 @@ jupyter notebook notebooks/04_results_interpretation.ipynb
 python scripts/run_analysis.py
 ```
 
+**Verification**: Ensure no errors occur and check for updated data in `data/processed/`.
+
 #### Step 2: Generate Dashboard Data
 ```bash
 python scripts/generate_dashboard_data.py
 ```
+
+**Verification**: Confirm `data.json` is created in `dashboard/backend/` with `ls dashboard/backend/data.json`.
 
 #### Step 3: Launch Dashboard
 
@@ -153,27 +159,27 @@ python scripts/generate_dashboard_data.py
 cd dashboard/backend
 python app.py
 ```
-**Expected Output**: `Running on http://127.0.0.1:5000`
+**Expected Output**: `Running on http://127.0.0.1:5000` (verify in browser at `http://127.0.0.1:5000/api/prices` returns JSON data).
 
 **Terminal 2 - Start Frontend:**
 ```bash
 cd dashboard/dashboard-frontend
 npm start
 ```
-**Expected Output**: `Local: http://localhost:3000`
+**Expected Output**: `Local: http://localhost:3000` (open in browser to see the dashboard).
 
 **Final Step**: Open your browser to `http://localhost:3000` to view the interactive dashboard.
 
 - **Features**: 
-  - A line chart displaying log returns over time.
-  - An interactive date filter to isolate specific days.
-  - Highlighting of significant change points (e.g., 2010-09-05 for Arab Spring).
-- **Implementation**: Located in `dashboard/dashboard-frontend/src/App.jsx`, using React and Chart.js, with data fetched from the Flask backend.
+  - A line chart displaying log returns over time, fetched from `/api/prices`.
+  - An interactive date filter to isolate specific days, implemented in `App.jsx`.
+  - Highlighting of significant change points (e.g., 2010-09-05 for Arab Spring), sourced from `/api/change-point`.
+- **Implementation**: The backend (`dashboard/backend/app.py`) serves JSON data via Flask, while the frontend (`dashboard/dashboard-frontend/src/App.jsx`) uses React and Chart.js for visualization. Data flow: `data.json` → Flask API → React component.
 - **Challenges Resolved**: 
   - CORS issues blocking data access, fixed by adding `flask-cors` to the backend.
-  - Data structure mismatch causing `TypeError: prices.filter is not a function`, resolved by ensuring `prices` is an array.
+  - Data structure mismatch causing `TypeError: prices.filter is not a function`, resolved by ensuring `prices` is an array in `App.jsx`.
   - Chart.js `Filler` plugin missing, addressed by registering it for `fill: true` support.
-- **Testing**: Verify functionality by running `npm start` in `dashboard/dashboard-frontend/`, testing with dates like `1987-05-21`, and checking change point display. See `docs/task-3-report.md` for detailed documentation.
+- **Testing**: Test by changing the date filter (e.g., `1987-05-21`) and verifying the graph updates. Check console (F12) for `Prices data:` and `Change point data:` logs. See `docs/task-3-report.md` for detailed documentation.
 
 ## 📁 Repository Structure
 
@@ -211,7 +217,8 @@ brent-oil-changepoint-analysis/
 │
 ├── dashboard/
 │   ├── backend/            # Flask backend
-│   │   └── app.py          # Main Flask application
+│   │   ├── app.py          # Main Flask application
+│   │   └── data.json       # Generated dashboard data
 │   └── dashboard-frontend/ # React frontend
 │       ├── src/            # React components
 │       ├── package.json    # Node.js dependencies
@@ -281,7 +288,7 @@ pip install -r requirements.txt
 **Solution**:
 ```bash
 # Check if both services are running
-# Backend should show: "Running on http://127.0.0.1:5000"
+# Backend should show: "Running on http://127.0.0.1:5000" (test with curl http://127.0.0.1:5000/api/prices)
 # Frontend should show: "Local: http://localhost:3000"
 
 # If ports are busy, find and kill processes:
@@ -314,8 +321,8 @@ jupyter>=1.0.0      # Interactive notebook environment
 
 ### Node.js Packages (dashboard/dashboard-frontend/package.json):
 - React for frontend interface
-- Plotting libraries for interactive visualizations
-- HTTP client for API communication
+- Chart.js for interactive visualizations
+- Axios for HTTP client communication
 
 ## 📈 Model Understanding
 
