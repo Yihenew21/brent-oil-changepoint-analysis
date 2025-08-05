@@ -54,12 +54,12 @@ conda activate brent-oil-analysis
 
 #### 3. Install Frontend Dependencies
 ```bash
-cd dashboard/frontend
+cd dashboard/dashboard-frontend
 npm install
 cd ../..
 ```
 
-**Verification**: Check that `node_modules` folder exists in `dashboard/frontend/`
+**Verification**: Check that `node_modules` folder exists in `dashboard/dashboard-frontend/`
 
 #### 4. Data Setup
 ```bash
@@ -164,6 +164,17 @@ npm start
 
 **Final Step**: Open your browser to `http://localhost:3000` to view the interactive dashboard.
 
+- **Features**: 
+  - A line chart displaying log returns over time.
+  - An interactive date filter to isolate specific days.
+  - Highlighting of significant change points (e.g., 2010-09-05 for Arab Spring).
+- **Implementation**: Located in `dashboard/dashboard-frontend/src/App.jsx`, using React and Chart.js, with data fetched from the Flask backend.
+- **Challenges Resolved**: 
+  - CORS issues blocking data access, fixed by adding `flask-cors` to the backend.
+  - Data structure mismatch causing `TypeError: prices.filter is not a function`, resolved by ensuring `prices` is an array.
+  - Chart.js `Filler` plugin missing, addressed by registering it for `fill: true` support.
+- **Testing**: Verify functionality by running `npm start` in `dashboard/dashboard-frontend/`, testing with dates like `1987-05-21`, and checking change point display. See `docs/task-3-report.md` for detailed documentation.
+
 ## 📁 Repository Structure
 
 ```
@@ -201,7 +212,7 @@ brent-oil-changepoint-analysis/
 ├── dashboard/
 │   ├── backend/            # Flask backend
 │   │   └── app.py          # Main Flask application
-│   └── frontend/           # React frontend
+│   └── dashboard-frontend/ # React frontend
 │       ├── src/            # React components
 │       ├── package.json    # Node.js dependencies
 │       └── node_modules/   # Installed packages (after npm install)
@@ -222,7 +233,7 @@ brent-oil-changepoint-analysis/
 │   ├── interim_report.md   # Task 1 submission
 │   ├── final_report.md     # Final report/blog post
 │   ├── methodology.md      # Detailed methodology
-│   └── task_2_report.md    # Task 2 completion report
+│   └── task_3_report.md    # Task 3 completion report
 │
 └── scripts/
     ├── run_analysis.py     # Main analysis script
@@ -301,7 +312,7 @@ flask>=2.0.0        # Web framework for backend
 jupyter>=1.0.0      # Interactive notebook environment
 ```
 
-### Node.js Packages (dashboard/frontend/package.json):
+### Node.js Packages (dashboard/dashboard-frontend/package.json):
 - React for frontend interface
 - Plotting libraries for interactive visualizations
 - HTTP client for API communication
@@ -343,5 +354,5 @@ For questions, contact YIHENEW or post issues on the GitHub repository: https://
 
 ---
 
-**Project Status**: ✅ Task 1 | ✅Task 2 partial Complete | ✅  Task 3 In Progress  
+**Project Status**: ✅ Task 1 | ✅ Task 2 partial Complete | ✅ Task 3 In Progress  
 **Last Updated**: August 2025
