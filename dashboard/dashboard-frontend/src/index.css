@@ -1,0 +1,25 @@
+/* Global styles for the dashboard */
+body {
+  font-family: Arial, sans-serif; /* Set default font */
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4; /* Light background */
+}
+
+h1 {
+  color: #333; /* Dark header color */
+  text-align: center;
+}
+
+div {
+  margin-bottom: 15px; /* Spacing between sections */
+}
+
+label {
+  font-weight: bold; /* Bold label text */
+}
+
+input[type="date"] {
+  margin-left: 10px; /* Space between label and input */
+  padding: 5px;
+}
