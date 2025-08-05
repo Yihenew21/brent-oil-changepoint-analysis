@@ -49,7 +49,7 @@ def generate_dashboard_data():
     }
 
     # Save to JSON
-    output_path = Path("../dashboard/backend/data.json")
+    output_path = Path("dashboard/backend/data.json")
     output_path.parent.mkdir(parents=True, exist_ok=True)
     with open(output_path, "w") as f:
         json.dump(output, f, default=str)
