@@ -1,3 +1,5 @@
+"""Module for building and running a Bayesian change point model for time series data."""
+
 import pymc as pm
 import numpy as np
 import pandas as pd
@@ -8,8 +10,7 @@ import arviz as az
 
 
 def build_changepoint_model(data: np.ndarray, n_days: int) -> pm.Model:
-    """
-    Build a Bayesian change point model with a single switch point for time series data.
+    """Build a Bayesian change point model with a single switch point for time series data.
 
     Args:
         data (np.ndarray): Array of observed data (e.g., log returns of Brent oil prices).
@@ -42,8 +43,7 @@ def build_changepoint_model(data: np.ndarray, n_days: int) -> pm.Model:
 def run_mcmc(
     model: pm.Model, n_days: int, data: np.ndarray, draws: int = 250, tune: int = 5000
 ) -> az.InferenceData:
-    """
-    Run MCMC sampling to estimate posterior distributions.
+    """Run MCMC sampling to estimate posterior distributions.
 
     Args:
         model (pm.Model): PyMC model to sample from.
@@ -56,10 +56,11 @@ def run_mcmc(
         az.InferenceData: MCMC posterior samples in ArviZ format.
     """
     with model:
-        # Use hybrid sampler: Metropolis for tau_idx, NUTS for others
+        # Define hybrid sampler: Metropolis for tau_idx, NUTS for continuous variables
         step1 = pm.Metropolis(vars=[model.tau_idx])
-        step2 = pm.NUTS(vars=[model.mu_1, model.mu_2, model.sigma])
-        step = pm.CompoundStep([step1, step2])
+        step2 = pm.NUTS(vars=[model.mu_1, model.mu_2, model.sigma], target_accept=0.95)
+        step = [step1, step2]  # List of step methods instead of CompoundStep
+
         # Run sampling with initialization
         initvals = {
             "tau_idx": n_days // 40,
@@ -71,9 +72,8 @@ def run_mcmc(
             draws=draws,
             tune=tune,
             chains=4,
-            step=step,
+            step=step,  # Pass list of steps
             initvals=initvals,
-            target_accept=0.95,
             return_inferencedata=True,
             progressbar=True,
         )
@@ -84,8 +84,7 @@ def run_mcmc(
 def plot_changepoint_results(
     trace: az.InferenceData, data: np.ndarray, dates: pd.Series, output_path: str
 ) -> None:
-    """
-    Plot posterior distributions and data with estimated change point.
+    """Plot posterior distributions and data with estimated change point.
 
     Args:
         trace (az.InferenceData): MCMC trace with posterior samples.
@@ -132,8 +131,7 @@ def plot_changepoint_results(
 def interpret_changepoint(
     trace: az.InferenceData, dates: pd.Series, events_df: pd.DataFrame
 ) -> dict:
-    """
-    Interpret change point results by associating with events and quantifying impact.
+    """Interpret change point results by associating with events and quantifying impact.
 
     Args:
         trace (az.InferenceData): MCMC trace with posterior samples.
