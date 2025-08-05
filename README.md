@@ -157,7 +157,7 @@ python app.py
 
 **Terminal 2 - Start Frontend:**
 ```bash
-cd dashboard/frontend
+cd dashboard/dashboard-frontend
 npm start
 ```
 **Expected Output**: `Local: http://localhost:3000`
@@ -343,5 +343,5 @@ For questions, contact YIHENEW or post issues on the GitHub repository: https://
 
 ---
 
-**Project Status**: ✅ Task 1 | 🔄Task 2 partial Complete | 🔄  Task 3 In Progress  
+**Project Status**: ✅ Task 1 | ✅Task 2 partial Complete | ✅  Task 3 In Progress  
 **Last Updated**: August 2025
